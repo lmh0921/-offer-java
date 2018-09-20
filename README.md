@@ -128,3 +128,74 @@ public class Solution {
 }
 ```
 
+## Word Search 
+
+Given a 2D board and a word, find if the word exists in the grid.
+
+The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.
+
+**Example:**
+
+```
+board =
+[
+  ['A','B','C','E'],
+  ['S','F','C','S'],
+  ['A','D','E','E']
+]
+
+Given word = "ABCCED", return true.
+Given word = "SEE", return true.
+Given word = "ABCB", return false.
+```
+
+```java
+class Solution {
+    static int[][] fangxiang = new int[][]{{0,1},{0,-1},{1,0},{-1,0}};
+    int[][] visited;
+    public boolean exist(char[][] board, String word) {
+        visited = new int[board.length][board[0].length];
+        for(int i=0;i<board.length;i++){
+            for(int j=0;j<board[0].length;j++){
+                if(exist(board,word,0,i,j)){
+                    return true;
+                }
+            }
+        }
+        return false;
+        
+    }
+    
+    public boolean fanweinei(int x,int y,char[][] board){
+        if(x>=0&&x<board.length &&y>=0&&y<board[0].length){
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean exist(char[][] board, String word, int index, int startx, int starty){
+        if(index==word.length()-1){
+            return word.charAt(index)==board[startx][starty];
+        }
+        if(board[startx][starty]==word.charAt(index)){
+            visited[startx][starty] = 1;
+            for(int i=0;i<4;i++){
+            int newx = fangxiang[i][0]+startx;
+            int newy = fangxiang[i][1]+starty;
+            if(fanweinei(newx,newy,board)){
+                if(visited[newx][newy] == 0){
+                    if(exist(board,word,index+1,newx,newy)){
+                    return true;
+                }
+            }    
+        }
+        }
+            visited[startx][starty] = 0;
+        }
+        
+        return false;
+        
+    }
+}
+```
+

@@ -199,3 +199,57 @@ class Solution {
 }
 ```
 
+## 二叉树和为某一值的路径
+
+题目描述
+
+输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
+
+```java
+import java.util.ArrayList;
+/**
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+    ArrayList<ArrayList<Integer>> res;
+    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root,int target) {
+        res = new ArrayList();
+        if(root==null){
+            return res;
+        }
+        help(root,target,0,new ArrayList());
+        return res;
+    }
+    
+    public void help(TreeNode root,int target,int sum,ArrayList<Integer> list){
+        sum+=root.val;
+        list.add(root.val);
+        boolean isLeaf = root.left==null&&root.right==null;
+        if(sum==target&&isLeaf){
+            res.add(new ArrayList(list));
+        }
+        //如果不是叶节点，则遍历子节点
+        if(root.left!=null){
+            help(root.left,target,sum,list);
+        }
+        if(root.right!=null){
+            help(root.right,target,sum,list);
+        }
+        //返回父节点前，回溯
+        sum-=root.val;
+        list.remove(list.size()-1);
+        
+    }
+}
+```
+
